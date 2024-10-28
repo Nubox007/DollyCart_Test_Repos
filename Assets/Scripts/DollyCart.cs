@@ -42,7 +42,7 @@ public class DollyCart : MonoBehaviour
             {
                 if(hit.transform.tag == "Enemy")
                 {
-                    hit.transform.GetComponent<EnemyEvent>().Damaged();
+                    // hit.transform.GetComponent<EnemyEvent>().Damaged();
                 }
             }
 
@@ -66,7 +66,7 @@ public class DollyCart : MonoBehaviour
         }
         path += 3;
         Debug.Log("dolly stop");
-        trackEvent.StartMove();
+        // trackEvent.StartMove();
 
         yield break;
     }
