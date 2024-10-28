@@ -6,9 +6,9 @@ using UnityEngine;
 public class DollyPaths : MonoBehaviour
 {
 
-    [SerializeField] private CinemachinePath[] paths = null;
+    [SerializeField] private CinemachineSmoothPath[] paths = null;
 
-    public CinemachinePath[] GetCinemachinePathList
+    public CinemachineSmoothPath[] GetCinemachinePathList
     {
         get { return paths; }
     }

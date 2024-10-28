@@ -9,6 +9,8 @@ public class TestInput : MonoBehaviour
     // 임시 테스트용 Input 스크립트
     //후에 적용상태보고 나중에 그대로 쓸지 결정
     public string enemyTag = "";
+    public PlayerManager playerPathManager = null;
+    public bool isPlaying = true;
 
     // 기능 대상 클릭 시 Ray 판정으로 Damaged호출
     private void Update()
@@ -24,6 +26,12 @@ public class TestInput : MonoBehaviour
                     hit.transform.GetComponent<IEventCall>().CallEvent();
             }
 
+        }
+
+        if(Input.GetKeyDown(KeyCode.Space) && isPlaying)
+        {
+            isPlaying = false;
+            playerPathManager.SetCartPhaseMode();
         }
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 
 [RequireComponent (typeof(CinemachineDollyCart))]
-public class Enemy : MonoBehaviour, IEventCall,IAttack
+public class Enemy : MonoBehaviour, IEventCall, IAttack
 {
     
     public delegate void OnEnemyEventCall();
@@ -43,9 +43,13 @@ public class Enemy : MonoBehaviour, IEventCall,IAttack
         this.gameObject.SetActive(true);        
         dollyCart.m_Position = 0f;
     }
+
+
     /// <summary>
     /// interface call
     /// 플레이어가 공격 시 호출
+    /// 스피드를 0으로 해야 다음 트랙으로 초기화시 이동 안함
+    /// 콜백으로 상위 PathEventManager에게 카운트 및 페이즈 체크  호출
     /// </summary>
     public void CallEvent()
     {
