@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class PathEventManager : MonoBehaviour
 {   
-
     //상위 객체 접근을 위한 delegate
     public delegate void OnPhaseEventCall();
     private OnPhaseEventCall onPhaseEventCall = null;
@@ -38,8 +37,8 @@ public class PathEventManager : MonoBehaviour
     /// 1. 적 객체들이 플레이어가 경로에 진입하면 페이즈 시작
     /// 2. 객체들이 죽을때마다 카운트
     /// 3. 카운트가 0이되면 플레이어 이동 명령 전달
-    /// 
     /// </summary>
+
 
     public void StartPhase()
     {

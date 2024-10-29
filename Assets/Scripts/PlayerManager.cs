@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using Cinemachine;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
@@ -121,7 +119,6 @@ public class PlayerManager : MonoBehaviour
         Debug.Log("lerp End"); 
         isLerp = false;
 
-        
         yield break;
     }
 

@@ -1,15 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+// using System.Collections;
+// using System.Collections.Generic;
+// using UnityEngine;
 
-public class Score : EventCall
-{
+// public class Score : EventCall
+// {
 
-    private int score = 0;
+//     private int score = 0;
 
-    public void CallEvent()
-    {
+//     public void CallEvent()
+//     {
         
-    }
+//     }
     
-}
+// }
