@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
-
 public class PlayerManager : MonoBehaviour
 {
 
@@ -12,7 +11,14 @@ public class PlayerManager : MonoBehaviour
 
     
     [SerializeField] private List<int> phaseUnit = null;
-    [SerializeField] private float cart_Speed = 0f; 
+
+    [Tooltip ("플레이어 카트 최대 속도")]
+    [SerializeField] private float maxSpeed = 1.0f; 
+
+    [Tooltip ("플레이어 카트 최소 속도")]
+    [SerializeField] private float minSpeed = 0.01f;
+
+    [Tooltip ("속도 보간 비율")]
     [SerializeField] private float blendSpeed = 0.03f;
 
 
@@ -28,7 +34,7 @@ public class PlayerManager : MonoBehaviour
     private void Awake()
     {
         dollyCart = GetComponent<CinemachineDollyCart>();
-        dollyCart.m_Speed = 0f;
+        dollyCart.m_Speed = 0.0f;
     }
 
 
@@ -75,7 +81,7 @@ public class PlayerManager : MonoBehaviour
 
                 //페이즈 이벤트 콜백 메서드
                 onGameMangerCall();
-                curPhase = curPhase < phaseUnit.Count-1 ? ++curPhase : 0;
+                curPhase = curPhase < (phaseUnit.Count-1) ? ++curPhase : 0;
                 yield break;
 
             }
@@ -93,23 +99,23 @@ public class PlayerManager : MonoBehaviour
         if(isLerp) yield break;
         
         isLerp = true;
-        if(dollyCart.m_Speed >= 0.4f)
+        if(dollyCart.m_Speed >= (maxSpeed/2))
         {            
-            while(dollyCart.m_Speed >= 0.01f)
+            while(dollyCart.m_Speed >= minSpeed)
             {
                 //감속 보간
-                SetSpeed = Mathf.Lerp(dollyCart.m_Speed, 0, blendSpeed);
+                SetSpeed = Mathf.Lerp(dollyCart.m_Speed, minSpeed, blendSpeed);
                 yield return new WaitForEndOfFrame();
             }
 
         }else
         {         
       
-            while(dollyCart.m_Speed <= (cart_Speed-0.1f))
+            while(dollyCart.m_Speed <= (maxSpeed-0.1f))
             {
 
                 //가속 보간
-                SetSpeed = Mathf.Lerp(dollyCart.m_Speed, cart_Speed, blendSpeed);
+                SetSpeed = Mathf.Lerp(dollyCart.m_Speed, maxSpeed, blendSpeed);
                 yield return new WaitForEndOfFrame();
             }
             isPhase = false;
