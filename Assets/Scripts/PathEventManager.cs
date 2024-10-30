@@ -7,15 +7,27 @@ public class PathEventManager : MonoBehaviour
 {   
     //상위 객체 접근을 위한 delegate
     public delegate void OnPhaseEventCall();
+    public delegate void OnScoreEventCall(int _value);
     private OnPhaseEventCall onPhaseEventCall = null;
+    private OnScoreEventCall onScoreEventCall = null;
     public void SetPhaseEventCall(OnPhaseEventCall _method)
     {
         onPhaseEventCall = _method;
     }
+    public void SetScoreEventCall(OnScoreEventCall _method)
+    {
+        onScoreEventCall = _method;
+    }
 
 
-    public List<Enemy> enemyCube = null;
-    public List<DollyPaths> enemyPaths = null;
+    [Tooltip ("일반 적 객체")]
+    [SerializeField] private List<Enemy> enemyCube = null;
+
+    [Tooltip ("적 객체들이 움직일 시네마틱 path")]
+    [SerializeField] private List<DollyPaths> enemyPaths = null;
+
+    [Tooltip ("보스 객체")]
+    [SerializeField] private Enemy bossCube = null;
 
 
     [Header ("Phase")]
@@ -26,10 +38,9 @@ public class PathEventManager : MonoBehaviour
     [Tooltip ("현재 페이즈에 남은 적 개체 수. 게임 시작 시 Awake 호출에서 초기화")]
     [SerializeField] private int curCount = 0;
 
-    [Header ("Score")]
-    [Tooltip ("임시점수")]
-    public int score = 0;
-    
+    [SerializeField, Range(0f, 2f)] private float speed = 1f;
+
+
     /// <summary>
     /// 적 객체들을 전부 관리 
     /// 적 객체들이 타고다닐 경로 관리
@@ -72,19 +83,32 @@ public class PathEventManager : MonoBehaviour
 
     //구간 도착 시 적 페이즈 시작
     private void EnemyPhaseStart()
-    {
+    {        
         foreach(var enemy in enemyCube)
         {
-            enemy.StartPhase();
+            enemy.Move(speed);
         }
     }
 
 
-    private void EnemyDestroy()
+    private void EnemyDestroy(Enemy.EnemyType _type)
     {
         --curCount;
         //점수 이벤트 발생....
-        Debug.Log($"Get Score!! {++score}");
+        switch(_type)
+        {
+            case Enemy.EnemyType.normal:
+                onScoreEventCall(10);
+                break;
+            case Enemy.EnemyType.epic:
+                onScoreEventCall(15);
+                break;
+            case Enemy.EnemyType.boss:
+                onScoreEventCall(40);
+                break;
+        }
+
+
         if(curCount <= 0) 
         {
             curPhase = (curPhase < enemyPaths.Count-1) ? ++curPhase : 0;

@@ -116,7 +116,7 @@ public class PlayerManager : MonoBehaviour
         }
         if(isPlaying)StartCoroutine(CheckPathUnit());
         
-        Debug.Log("lerp End"); 
+
         isLerp = false;
 
         yield break;

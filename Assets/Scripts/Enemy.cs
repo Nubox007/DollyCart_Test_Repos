@@ -5,10 +5,14 @@ using UnityEngine;
 
 
 [RequireComponent (typeof(CinemachineDollyCart))]
-public class Enemy : MonoBehaviour, IEventCall, IAttack
+public class Enemy : MonoBehaviour, IEventCall, IPhaseEvent
 {
-    
-    public delegate void OnEnemyEventCall();
+    public enum EnemyType
+    {   normal, epic, boss  }
+
+
+    [SerializeField] private EnemyType enemyType = EnemyType.normal;
+    public delegate void OnEnemyEventCall(EnemyType _type);
     private OnEnemyEventCall onEnemyEventCall = null;
     
     private CinemachineDollyCart dollyCart = null;
@@ -32,10 +36,15 @@ public class Enemy : MonoBehaviour, IEventCall, IAttack
     //페이즈 시작시 이동 
     // dollycart의 속도가 0 이상이면 자동으로 이동 
     // 이동 속도가 이상하다면 Inspector의 Update Method 확인
-    public void StartPhase()
+    public void Move(float _speed)
     {
         dollyCart.m_Speed = 1f;
-        //AttacktoPlayer호출 -> 타이밍을 봐야해서 업데이트가 아닌 코루틴으로 관리
+        //Attack호출 -> 타이밍을 봐야해서 업데이트가 아닌 코루틴으로 관리
+    }
+
+    public void Attack()
+    {
+        //
     }
 
     public void ResetPosition()
@@ -53,14 +62,13 @@ public class Enemy : MonoBehaviour, IEventCall, IAttack
     /// </summary>
     public void CallEvent()
     {
+
+        //damage 로직 추후 추가
         this.gameObject.SetActive(false);
         dollyCart.m_Speed = 0f;
-        onEnemyEventCall();
+        onEnemyEventCall(enemyType);
        
     }
 
-    public void AttacktoPlayer()
-    {
-        //코루틴으로 적 플레이어를 바라보고 공격개시
-    }
+    
 }
